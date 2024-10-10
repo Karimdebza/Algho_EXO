@@ -1,0 +1,6 @@
+algo : 
+definir la sign de la focntion 
+definir les variables
+definir la boucle selon le besoin 
+
+
