@@ -1,4 +1,7 @@
-
+import { Task } from "./Task";
+import { TaskType } from "./TaskType";
+import { Grosy } from "./Grosy";
+import { GrosyType } from "./GrosyType";
 // 1
 
 function helloWorld() : void {
@@ -69,12 +72,135 @@ function is_div(a: number, b:number): boolean {
 
 // console.log(is_div(10,3));
 
-function is_leap(year:number) {
-  if(year % 4 === 0 ){
+function is_leap(year:number): boolean {
+  if( year % 400 === 0 ){
+
+     
+    
+    return true
+   
+
+  }
+  if ( year % 4 === 0 && year % 100 !== 0  ) {
     return true
   }else{
-    return false
+    return false;
   }
 }
 
-console.log(is_leap(2024));
+// console.log(is_leap(1900));
+// console.log(is_leap(2024));
+// console.log(is_leap(2400));
+
+
+// function delta(a: number, b:number, c:number) {
+//   let delta = (b*b -4)
+// }
+
+
+
+                                                // 1 BOUCLE                           
+
+
+
+
+// function print_int(n:number) {
+//   let num = n;
+
+//   for (let i = 1; i <= n; i++) {
+//     num = i;
+//     console.log(num);
+    
+//   }
+//   return num;
+// }
+// // console.log(print_int(3));
+
+
+// function sum_int(n:number) {
+//   let sum = n;
+//   for (let i = 0; i < sum; i++) {
+   
+//     console.log(i);
+//   }
+//   return sum;
+// }
+
+// console.log(sum_int(3));
+
+let task : Task = new Task("dodo", "tous le monde", TaskType.ENTRETIEN);
+let task1 : Task = new Task("comp", "aller a lyon", TaskType.TRAVAIL);
+
+console.log(task.displayTask());
+console.log(task1.displayTask());
+
+let grosy1 : Grosy = new Grosy("viande", "karim");
+let grosy2 : Grosy = new Grosy("viande", "karim");
+console.log(grosy1.display());
+console.log(grosy2.display());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// function is_prime(n:number) {
+
+  // 
+
+//   for (let i = 0; i < n; i++) {
+//     let res : number = n;
+//     if(res / 3 ){
+//       return true;
+//     }else{
+//       return false;
+//     }
+    
+//   }
+// }
+
+
+// console.log(is_prime(1));
+
+// function h_triangle(h:number){
+ 
+  
+//   for (let i = 0; i <= h; i++) {
+//     for (let j = 0; j <= i; j++) {
+//       console.log('*');
+//     }
+
+//   }
+//   console.log("");
+//   return h;
+// }
+
+// console.log(h_triangle(3));
+
+
+// function arraySort(){
+//   let n = [4,3,1,2];
+//   n.sort();
+
+//   return n;
+// }
+
+// console.log(arraySort());
+
+
