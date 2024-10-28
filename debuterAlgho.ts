@@ -67,7 +67,7 @@ for (let i = 0; i < a.length; i++) {
 return res;
 }
 
-console.log(sum([1,2,3]));
+// console.log(sum([1,2,3]));
 
 
 function num(a:number){
@@ -85,4 +85,4 @@ function num(a:number){
     return a;
 }
 
-console.log(num(10));
+// console.log(num(10));
