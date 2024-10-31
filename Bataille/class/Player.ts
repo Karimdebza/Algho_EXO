@@ -1,28 +1,45 @@
 import { Card } from "./Card";
+import { Deck } from "./Deck";
 
 export  class Player   {
     private name : string;
-    private card : Card;
-    constructor(name:string,card:Card) {
+    private hand : Card[];
+    private deck : Deck;
+    constructor(name:string) {
         this.name = name;
-        this.card = card;
+         this.hand = [];
+        this.deck = new Deck();
         
     }
     public getName():string{
         return this.name;
+
     }
-    public setName(name :string){
-        return name;
-    }
-    showCard(): void {
-    
-        console.log(`vous avez jouer la card ${this.card}`);
-    }
-    hasCard(): boolean {
-        if(this.card !== null ){
-            console.log(`${this.name} n'a pas plus de carte`);
-            return false
+    public addCard(card: Card |undefined) {
+        if(card != undefined){
+            this.hand.push(card);
         }
-        return true
+        
     }
-}
+
+
+    public play() : Card |undefined{
+    return  this.hand.shift();
+    }
+    public retrieveCard(d:Deck){
+
+        let deck = d.drawDeck();
+        while (deck) {
+            this.hand.push(deck);
+            d.drawDeck();
+        }
+
+    
+    }
+       
+    public getNbCard(): number{
+        return this.hand.length;
+    }
+
+    }
+
