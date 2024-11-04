@@ -44,3 +44,20 @@ Collision avec les murs ou les limites du terrain : Si ton jeu a des limites, la
 Utilité de is_alive : Cette propriété est pratique pour savoir si le Snake est en vie, mais checkCollision pourrait être utilisé pour mettre à jour cet état en fonction des collisions détectées.
 
 En résumé, tu as la bonne structure, mais essaie de réfléchir aux types de collision que tu veux vérifier dans le jeu et comment les détecter. Cela donnera plus de sens à checkCollision
+
+
+pomme
+
+
+
+Ta classe Apple est bien de base, et tu as déjà configuré la position de la pomme via l’héritage de Point. Voici quelques idées pour l’améliorer :
+
+Méthode mouved (déplacement) : Tu pourrais utiliser cette méthode pour repositionner la pomme aléatoirement quand elle est mangée par le Snake. Pense à choisir de nouvelles coordonnées (x, y) qui ne se trouvent pas sur le corps du Snake pour éviter que la pomme réapparaisse sur lui.
+
+Coordonnées valides : Assure-toi que la pomme reste dans les limites du terrain de jeu. La méthode mouved pourrait recevoir des paramètres pour la taille de la grille, afin que les nouvelles positions de la pomme soient toujours valides.
+
+Déclenchement du mouvement : Tu pourrais appeler mouved à chaque fois que le Snake "mange" la pomme, ce qui repositionnerait la pomme pour le prochain tour.
+
+Vérification de la collision avec le Snake : Une méthode pour vérifier si le Snake est sur la même position que la pomme serait pratique pour déclencher la méthode mouved. Par exemple, tu pourrais faire un isEatenBy(snake: Snake): boolean qui vérifierait si la tête du Snake est à la même position que la pomme.
+
+Ces pistes te donneront des idées pour rendre la gestion de la pomme plus dynamique et interactive !

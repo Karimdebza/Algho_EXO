@@ -75,6 +75,9 @@ export class Snacke  {
             return false;
         }
     }
+    public getPosition():Point{
+        return this.position;
+    }
 }
 
 

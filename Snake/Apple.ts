@@ -1,4 +1,5 @@
 import { Point } from "./Point.js";
+import { Snacke } from "./Snacke.js";
 
 export class Apple extends Point {
     constructor(x:number,y:number ) {
@@ -6,7 +7,7 @@ export class Apple extends Point {
     }
     
 
-    public mouved(): void {
-        
+    public mouved(snake:Snacke): void {
+        if(this.y && this.x )
     }
 }
