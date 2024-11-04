@@ -58,6 +58,22 @@ export class Snacke  {
             position.x += this.jump_distance
              
        }
+       this.point.unshift(position);
+       this.crop();
+       this.position = position;
+
+    }
+
+    public checkCollision(){
+        if(this.is_alive){
+            if(this.getHeard() === this.position){
+                return true;
+           
+            }
+           
+        }else{
+            return false;
+        }
     }
 }
 
