@@ -17,14 +17,6 @@ export  class Point  {
         }
     }
 
-    public mouved(){
-        
-        if(this.x && this.y !== undefined){
-            this.x + 1;
-           this.y + 1;
-        }
-       
-    }
 
     display() : string{
       return ` ${this.x} de ${this.y}`; 

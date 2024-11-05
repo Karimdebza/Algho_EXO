@@ -78,6 +78,9 @@ export class Snacke  {
     public getPosition():Point{
         return this.position;
     }
+    public getPoints():Point[]{
+        return this.point;
+    }
 }
 
 

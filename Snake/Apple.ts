@@ -7,7 +7,16 @@ export class Apple extends Point {
     }
     
 
-    public mouved(snake:Snacke): void {
-        if(this.y && this.x )
+    public mouved(snake:Snacke,gridWidth: number, gridHeight: number): void {
+        let  newX :number;
+        let newY :number;
+        do{
+        newX =  Math.floor(Math.random() * gridWidth);
+         newY =  Math.floor(Math.random() * gridHeight);
+        }while (snake.getPoints().some(segment => segment.x === newX  && segment.y === newY )){
+            this.x = newX;
+            this.y = newY;
+        };
+  
     }
 }
