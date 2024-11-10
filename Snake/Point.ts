@@ -29,4 +29,7 @@ export  class Point  {
     getY(): number{
         return this.y;
     }
+    getX(): number{
+        return this.x;
+    }
 }

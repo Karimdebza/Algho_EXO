@@ -12,4 +12,4 @@ let game = new Game(width,height);
     Add logic for your game if needed
 */
 
-display.play(game);
+display.play(game); 

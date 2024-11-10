@@ -11,10 +11,16 @@ export class Point {
             return false;
         }
     }
-    mouved() {
-        if (this.x && this.y !== undefined) {
-            this.x + 1;
-            this.y + 1;
-        }
+    display() {
+        return ` ${this.x} de ${this.y}`;
+    }
+    static copy(posision) {
+        return new Point(posision.x, posision.y);
+    }
+    getY() {
+        return this.y;
+    }
+    getX() {
+        return this.x;
     }
 }
