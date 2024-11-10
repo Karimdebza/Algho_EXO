@@ -1,4 +1,4 @@
-import { Shape } from "../Enums/Shape";
+import { Shape } from "../Enums/Shape.js";
 
 
 export abstract class Point {
