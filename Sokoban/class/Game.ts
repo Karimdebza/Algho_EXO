@@ -1,10 +1,10 @@
-import { Direction } from "../Enums/DIrection.js";
-import { Shape } from "../Enums/Shape.js";
-import { Display } from "./Display.js";
-import { Hole } from "./Hole.js";
-import { Player } from "./Player.js";
-import { Point } from "./Point.js";
-import { Rock } from "./Rock.js";
+import { Direction } from "../Enums/DIrection";
+import { Shape } from "../Enums/Shape";
+import { Display } from "./Display";
+import { Hole } from "./Hole";
+import { Player } from "./Player";
+import { Point } from "./Point";
+import { Rock } from "./Rock";
 
 function get_rand(max:number):number {
     return Math.floor(Math.random() + max);
@@ -66,13 +66,28 @@ export class Game{
                 default:
                     newDir = Direction.RIGHT;
             }
+            if(newDir != (this.getLastDir()+2) %4){
+                this.direction.push(newDir);
+            }
         } ) 
     }
 
     public display_point(point:Point){
         switch(point.getShape()){
             case Shape.CIRCLE:
-                this.display.draw(new Game(13,34,23))
+                this.display.drawCircle(point.getX(),point.getY(),point.getColor());
+            case Shape.SQUARE:
+               this.display.drawRectangle(point.getX(),point.getY(),point.getColor());
         }
     }
+
+    public play(){
+        
+        this.display_point(this.player);
+        this.display_point(this.rock);
+        this.display_point(this.hole);
+    }
 }
+
+let game = new Game(12,12,34);
+console.log(game.play());
