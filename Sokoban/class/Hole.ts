@@ -7,4 +7,8 @@ export class Hole extends Point{
 
     }
 
+    public is_Filled(rock:Point):boolean{
+        if(this.touch(rock) ) return true;
+        return false;
+    }
 }

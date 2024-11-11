@@ -15,6 +15,6 @@ export class Display{
     }
   
     public draw(game:Game):void {
-
+        
     }        
 }
