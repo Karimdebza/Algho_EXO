@@ -7,8 +7,15 @@ export class Hole extends Point{
 
     }
 
-    public is_Filled(rock:Point):boolean{
-        if(this.touch(rock) ) return true;
-        return false;
+    // public is_Filled(rock:Point):boolean{
+    //     if(this.touch(rock) ) return true;
+    //     return false;
+    // }
+
+    public is_empty(point:Point):boolean{
+         if(point.getX() && point.getY() === this.x && this.y ){
+            return false;
+         }
+         return true;
     }
 }

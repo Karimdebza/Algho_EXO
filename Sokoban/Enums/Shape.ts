@@ -1,4 +1,4 @@
-export enum Shape {
+export enum Shape{
     CIRCLE,
     SQUARE
 

@@ -1,47 +1,49 @@
 import Drawer from "./Drawer.js";
 import { Game } from "./Game.js";
+import { Hole } from "./Hole.js";
+import { Player } from "./Player.js";
+import { Rock } from "./Rock.js";
+import { Rocks } from "./Rocks.js";
 
+export class Display {
+  private ctx: CanvasRenderingContext2D | null;
+  private scale: number;
+  private drawer: Drawer;
 
-export class Display{
-     private ctx : CanvasRenderingContext2D | null;
-    private scale : number;
-    private drawer : Drawer;
-  
-    constructor(width:number, height:number, scale:number = 10) {
-        this.drawer = new Drawer(width,height,scale);
-        const canvas = document.createElement('canvas');
-        this.ctx = canvas.getContext('2d');
+  constructor(width: number, height: number, scale: number = 10) {
+    this.drawer = new Drawer(width, height, scale);
+    const canvas = document.createElement("canvas");
+    this.ctx = canvas.getContext("2d");
+
+    this.scale = scale;
+    canvas.width = width * this.scale;
+    canvas.height = height * this.scale;
+  }
+
+  public refreshScore() {
+    let score: HTMLElement | null = document.getElementById("score");
+    if (score != null) score.innerHTML = "0";
+  }
+
+  public draw(game: Game): void {
+    let rocks : Rock[]= game.getRock();
+    for (let i = 0; i < rocks.length; i++) {
+        let rock : Rock = rocks[i];
+        this.drawer.drawRectangle(rock.getX(),rock.getY(), rock.getColor());
         
-        this.scale = scale;
-        canvas.width = width * this.scale;
-        canvas.height = height * this.scale;
+    }
+    const holes : Hole[] = game.getHole();
+    for (let i = 0; i < holes.length; i++) {
+        let hole : Hole = holes[i];
+        this.drawer.drawRectangle(hole.getX(),hole.getY(),hole.getColor());
         
     }
+    
+    
+    const player : Player = game.getPlayer();
+    this.drawer.drawCircle(player.getX(), player.getY(),player.getColor());
+   
+   
   
-    public refreshScore(){
-        let score : HTMLElement|null = document.getElementById("score");
-        if(score!=null) score.innerHTML = "0";
-    }
-  
-    public draw(game:Game):void {
-
-    }   
-    
-    public drawRectangle(x:number, y:number, color:string):void {
-        if(this.ctx != null){
-            this.ctx.beginPath()
-            this.ctx.fillStyle = color
-            this.ctx.fillRect(x * this.scale, y * this.scale, this.scale, this.scale)
-        }
-    }
-    
-    public drawCircle(x:number, y:number, color:string):void {
-        if(this.ctx != null){
-            this.ctx.beginPath()
-            this.ctx.fillStyle = color
-            this.ctx.arc(x * this.scale + this.scale / 2, y * this.scale + this.scale / 2, this.scale / 2, 0, 2 * Math.PI)
-            this.ctx.fill()
-        }
-    }
-    
+  }
 }
