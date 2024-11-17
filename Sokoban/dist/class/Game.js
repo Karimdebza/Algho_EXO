@@ -14,7 +14,7 @@ export class Game {
         this.display = new Display(width, height, scale);
         this.level = 1;
         this.direction = [Direction.RIGHT];
-        this.player = new Player(Math.floor(width / 2), Math.floor(height / 2), Direction.LEFT);
+        this.player = new Player(Math.floor(width / 2), Math.floor(height / 2));
         this.holes = [new Hole(get_rand(height), get_rand(width))];
         this.rocks = [new Rock(get_rand(height), get_rand(width))];
     }
@@ -28,28 +28,29 @@ export class Game {
         return this.direction[this.direction.length - 1];
     }
     displacement() {
-        document.addEventListener('keypress', (event) => {
-            let newDir;
+        document.addEventListener("keydown", (event) => {
+            let newX = this.player.getX();
+            let newY = this.player.getY();
             switch (event.key) {
-                case 'ArrowUp':
-                    newDir = Direction.UP;
-                    console.log(newDir);
+                case "ArrowUp":
+                    newY -= 1;
                     break;
-                case 'ArrowDown':
-                    newDir = Direction.DOWN;
+                case "ArrowDown":
+                    newY += 1;
                     break;
-                case 'ArrowLeft':
-                    newDir = Direction.LEFT;
+                case "ArrowLeft":
+                    newX -= 1;
                     break;
-                case 'ArrowRight':
-                    newDir = Direction.RIGHT;
+                case "ArrowRight":
+                    newX += 1;
                     break;
                 default:
-                    newDir = Direction.RIGHT;
+                    return;
             }
-            if (newDir != (this.getLastDir() + 2) % 4) {
-                this.direction.push(newDir);
-            }
+            this.player.setX(newX);
+            this.player.setY(newY);
+            this.display.clear();
+            this.display.draw(this);
         });
     }
     display_point(point) {
@@ -60,7 +61,13 @@ export class Game {
     }
     play() {
         this.display.draw(this);
-        this.displacement();
+        this.step;
+    }
+    step() {
+        // this.player.mouv(this.getDir());
+        if (this.direction.length > 1) {
+            this.direction.shift();
+        }
     }
     getHole() {
         return this.holes;
@@ -70,5 +77,44 @@ export class Game {
     }
     getPlayer() {
         return this.player;
+    }
+    push_rock() {
+        let canPush = false;
+        for (let i = 0; i < this.rocks.length; i++) {
+            let rock = this.rocks[i];
+            if (this.player.touch_rock(rock)) {
+                canPush = true;
+                if (canPush == true) {
+                    document.addEventListener("keydown", (event) => {
+                        let newX = rock.getX();
+                        let newY = rock.getY();
+                        switch (event.key) {
+                            case "ArrowUp":
+                                newY -= 1;
+                                break;
+                            case "ArrowDown":
+                                newY += 1;
+                                break;
+                            case "ArrowLeft":
+                                newX -= 1;
+                                break;
+                            case "ArrowRight":
+                                newX += 1;
+                                break;
+                            default:
+                                return;
+                        }
+                        rock.setX(newX);
+                        rock.setY(newY);
+                        this.display.clear();
+                        this.display.draw(this);
+                    });
+                }
+                console.log("test");
+            }
+            if (this.player.touch(rock) == false) {
+                canPush = false;
+            }
+        }
     }
 }

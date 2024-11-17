@@ -7,19 +7,29 @@ import { Rock } from "./Rock.js";
 export class Player extends Point{
 
 
-    constructor(x:number,y:number,dir:Direction){
+    constructor(x:number,y:number,dir:Direction=Direction.RIGHT){
         super(x,y,Shape.CIRCLE,'green');
-        // this.mouv(dir);
-    }
-    push(rock:Rock){
         
     }
-    public mouv(dir:Direction):void{
-        let x: number = this.getX() + Number(dir==Direction.RIGHT) - Number(dir==Direction.LEFT);
-        let y : number = this.getY() + Number(dir==Direction.DOWN) - Number(dir == Direction.UP);
-      
-        
+   
+ 
+
+    public setX(newX: number): void {
+        this.x = newX;
     }
+
+    public setY(newY: number): void {
+        this.y = newY;
+    }
+    
+
+    public touch_rock(rock:Rock):boolean{
+    
+        if(this.touch(rock)) return true;
+        return false;
+    }
+
     
     
 }
+

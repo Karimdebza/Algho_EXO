@@ -18,6 +18,7 @@ export class Display {
     this.scale = scale;
     canvas.width = width * this.scale;
     canvas.height = height * this.scale;
+    
   }
 
   public refreshScore() {
@@ -40,10 +41,19 @@ export class Display {
     }
     
     
+    
     const player : Player = game.getPlayer();
     this.drawer.drawCircle(player.getX(), player.getY(),player.getColor());
    
    
   
   }
+
+
+
+
+  public clear(){
+  this.drawer.clear();
+}
+
 }

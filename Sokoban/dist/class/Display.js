@@ -27,4 +27,7 @@ export class Display {
         const player = game.getPlayer();
         this.drawer.drawCircle(player.getX(), player.getY(), player.getColor());
     }
+    clear() {
+        this.drawer.clear();
+    }
 }
