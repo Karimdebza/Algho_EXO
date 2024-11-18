@@ -79,42 +79,49 @@ export class Game {
         return this.player;
     }
     push_rock() {
-        let canPush = false;
         for (let i = 0; i < this.rocks.length; i++) {
             let rock = this.rocks[i];
             if (this.player.touch_rock(rock)) {
-                canPush = true;
-                if (canPush == true) {
-                    document.addEventListener("keydown", (event) => {
-                        let newX = rock.getX();
-                        let newY = rock.getY();
-                        switch (event.key) {
-                            case "ArrowUp":
-                                newY -= 1;
-                                break;
-                            case "ArrowDown":
-                                newY += 1;
-                                break;
-                            case "ArrowLeft":
-                                newX -= 1;
-                                break;
-                            case "ArrowRight":
-                                newX += 1;
-                                break;
-                            default:
-                                return;
-                        }
+                document.addEventListener("keypress", (event) => {
+                    let newX = rock.getX();
+                    let newY = rock.getY();
+                    switch (event.key) {
+                        case "ArrowUp":
+                            newY -= 1;
+                            break;
+                        case "ArrowDown":
+                            newY += 1;
+                            break;
+                        case "ArrowLeft":
+                            newX -= 1;
+                            break;
+                        case "ArrowRight":
+                            newX += 1;
+                            break;
+                        default:
+                            return;
+                    }
+                    if (this.isPositionValid(newX, newY)) {
                         rock.setX(newX);
                         rock.setY(newY);
                         this.display.clear();
                         this.display.draw(this);
-                    });
-                }
+                    }
+                });
                 console.log("test");
             }
-            if (this.player.touch(rock) == false) {
-                canPush = false;
+        }
+    }
+    isPositionValid(x, y) {
+        if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
+            return false;
+        }
+        for (let i = 0; i < this.rocks.length; i++) {
+            let rock = this.rocks[i];
+            if (rock.getX() === x && rock.getY() === y) {
+                return false;
             }
         }
+        return true;
     }
 }

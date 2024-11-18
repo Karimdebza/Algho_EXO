@@ -12,5 +12,10 @@ public getHoles():Hole[] {
     return this.holes;
 }
 
+setColor(){
+
+}
+
+
 
 }

@@ -25,4 +25,9 @@ export class Rock extends Point{
         this.y = newY;
     }
 
+    removRock(){
+
+    }
+
+    
 }

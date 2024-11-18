@@ -6,4 +6,6 @@ export class Holes {
     getHoles() {
         return this.holes;
     }
+    setColor() {
+    }
 }

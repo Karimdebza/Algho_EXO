@@ -1,7 +1,7 @@
 import { Shape } from "../Enums/Shape.js";
 
 
-export  class Point {
+export abstract class Point {
 
     protected x : number;
     protected y : number;
