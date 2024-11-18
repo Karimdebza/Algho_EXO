@@ -112,6 +112,55 @@ export class Game {
             }
         }
     }
+    movePlayer(event) {
+        let newX = this.player.getX();
+        let newY = this.player.getY();
+        // Déterminer la direction du mouvement
+        switch (event.key) {
+            case "ArrowUp":
+                newY -= 1;
+                break;
+            case "ArrowDown":
+                newY += 1;
+                break;
+            case "ArrowLeft":
+                newX -= 1;
+                break;
+            case "ArrowRight":
+                newX += 1;
+                break;
+            default:
+                return; // Ignore les autres touches
+        }
+        // Vérifier s'il y a une collision avec un rocher
+        for (let rock of this.rocks) {
+            if (this.player.touch_rock(rock)) {
+                const rockNewX = rock.getX() + (newX - this.player.getX());
+                const rockNewY = rock.getY() + (newY - this.player.getY());
+                // Vérifier si le rocher peut être poussé
+                if (this.isPositionValid(rockNewX, rockNewY)) {
+                    // Déplacer le rocher
+                    rock.setX(rockNewX);
+                    rock.setY(rockNewY);
+                    // Déplacer le joueur
+                    this.player.setX(newX);
+                    this.player.setY(newY);
+                }
+                else {
+                    console.log("Le rocher ne peut pas être poussé.");
+                }
+                return; // Arrête de vérifier les autres rochers
+            }
+        }
+        // Si aucune collision, déplacer le joueur
+        if (this.isPositionValid(newX, newY)) {
+            this.player.setX(newX);
+            this.player.setY(newY);
+        }
+        // Redessiner la scène
+        this.display.clear();
+        this.display.draw(this);
+    }
     isPositionValid(x, y) {
         if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
             return false;

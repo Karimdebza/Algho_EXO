@@ -10,4 +10,6 @@ game.displacement();
 game.push_rock();
 game.play();
 
+// game.movePlayer();
+
 

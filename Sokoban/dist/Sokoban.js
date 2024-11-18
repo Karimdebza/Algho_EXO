@@ -5,3 +5,4 @@ const display = new Display(50, 50, 10);
 game.displacement();
 game.push_rock();
 game.play();
+// game.movePlayer();
