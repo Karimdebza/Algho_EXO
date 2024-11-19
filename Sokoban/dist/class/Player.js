@@ -16,4 +16,11 @@ export class Player extends Point {
             return true;
         return false;
     }
+    getPosition() {
+        return { x: this.x, y: this.y };
+    }
+    setPosition(x, y) {
+        this.x = x;
+        this.y = y;
+    }
 }

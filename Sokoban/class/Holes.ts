@@ -6,6 +6,7 @@ protected holes:Hole[];
 
 constructor(x:number,y:number){
     this.holes = [new Hole(x,y)];
+    
 }
 
 public getHoles():Hole[] {

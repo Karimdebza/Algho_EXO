@@ -25,6 +25,14 @@ export class Rock extends Point{
         this.y = newY;
     }
 
+    getPosition(){
+        return { x:this.x , y:this.y};
+    }
+
+    setPosition(x: number, y: number) {
+        this.x = x;
+        this.y = y;
+    }
     removRock(){
 
     }

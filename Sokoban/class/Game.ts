@@ -48,41 +48,7 @@ export class Game{
         return this.direction[this.direction.length-1];
     }
 
-    public displacement(): void {
-        document.addEventListener("keydown", (event) => {
-            let newX = this.player.getX(); 
-            let newY = this.player.getY(); 
-    
-            switch (event.key) {
-                case "ArrowUp":
-                    newY -= 1;
-                    break;
-                case "ArrowDown":
-                    newY += 1;
-                    break;
-                case "ArrowLeft":
-                    newX -= 1;
-                    break;
-                case "ArrowRight":
-                    newX += 1;
-                    break;
-                default:
-                    return; 
-            }
-    
-           
-            this.player.setX(newX);
-            this.player.setY(newY);
-    
-            this.display.clear();
-            this.display.draw(this); 
-    
-           
-        });
-
-
-    }
-
+  
    
 
    public display_point(point : Point):void{
@@ -95,7 +61,7 @@ export class Game{
     public play():void{
         this.display.draw(this); 
         
-        this.step;
+        
        
     }
 
@@ -116,132 +82,78 @@ export class Game{
         return this.player;
     }
 
-    public push_rock(){
-        
-        for (let i = 0; i < this.rocks.length; i++) {
-            let rock = this.rocks[i];
-           
-            if (this.player.touch_rock(rock)) {
-               
-              
-                document.addEventListener("keypress", (event) => {
-                    let newX = rock.getX(); 
-                    let newY = rock.getY(); 
-            
-                    switch (event.key) {
-                        case "ArrowUp":
-                            newY -= 1;
-                            break;
-                        case "ArrowDown":
-                            newY += 1;
-                            break;
-                        case "ArrowLeft":
-                            newX -= 1;
-                            break;
-                        case "ArrowRight":
-                            newX += 1;
-                            break;
-                        default:
-                            return; 
-                    }
-            
-                   if(this.isPositionValid(newX,newY)){
-                    rock.setX(newX);
-                    rock.setY(newY);
-            
-                    this.display.clear();
-                    this.display.draw(this); 
-                
-                   }
-
-                 
-                   
-                  }
-);
-
-                
-            
-            console.log("test");
-        }
-
-       
-        
-    }
+   
     
 
     
-}
+    public displacement(): void {
+        document.addEventListener("keydown", (event) => {
+            let newX = this.player.getX();
+            let newY = this.player.getY();
+            let dir: Direction | null = null;
 
-public movePlayer(event: KeyboardEvent) {
-    let newX = this.player.getX();
-    let newY = this.player.getY();
-
-    // Déterminer la direction du mouvement
-    switch (event.key) {
-        case "ArrowUp":
-            newY -= 1;
-            break;
-        case "ArrowDown":
-            newY += 1;
-            break;
-        case "ArrowLeft":
-            newX -= 1;
-            break;
-        case "ArrowRight":
-            newX += 1;
-            break;
-        default:
-            return; // Ignore les autres touches
-    }
-
-    // Vérifier s'il y a une collision avec un rocher
-    for (let rock of this.rocks) {
-        if (this.player.touch_rock(rock)) {
-            const rockNewX = rock.getX() + (newX - this.player.getX());
-            const rockNewY = rock.getY() + (newY - this.player.getY());
-
-            // Vérifier si le rocher peut être poussé
-            if (this.isPositionValid(rockNewX, rockNewY)) {
-                // Déplacer le rocher
-                rock.setX(rockNewX);
-                rock.setY(rockNewY);
-
-                // Déplacer le joueur
-                this.player.setX(newX);
-                this.player.setY(newY);
-            } else {
-                console.log("Le rocher ne peut pas être poussé.");
+            switch (event.key) {
+                case "ArrowUp":
+                    newY -= 1;
+                    dir = Direction.UP;
+                    break;
+                case "ArrowDown":
+                    newY += 1;
+                    dir = Direction.DOWN;
+                    break;
+                case "ArrowLeft":
+                    newX -= 1;
+                    dir = Direction.LEFT;
+                    break;
+                case "ArrowRight":
+                    newX += 1;
+                    dir = Direction.RIGHT;
+                    break;
+                default:
+                    return;
             }
-            return; // Arrête de vérifier les autres rochers
-        }
+
+            const rock = this.rocks.find(r => r.getPosition().x === newX && r.getPosition().y === newY);
+
+            
+            if (rock) {
+                const rockNewX = dir === Direction.LEFT ? newX - 1 : dir === Direction.RIGHT ? newX + 1 : newX;
+                const rockNewY = dir === Direction.UP ? newY - 1 : dir === Direction.DOWN ? newY + 1 : newY;
+
+                if (this.isPositionValid(rockNewX, rockNewY)) {
+                    rock.setPosition(rockNewX, rockNewY);
+                } else {
+                    console.log("ne peux pas.");
+                    return;
+                }
+            }
+
+            
+            const hole = this.holes.find(h => h.getPosition().x === newX && h.getPosition().y === newY);
+            if (hole && !hole.getIsFilled()) {
+                console.log("ne peux pas le remplire.");
+                return;
+            }
+
+          
+            this.player.setPosition(newX, newY);
+
+            
+            this.display.clear();
+            this.display.draw(this);
+        });
     }
 
-    // Si aucune collision, déplacer le joueur
-    if (this.isPositionValid(newX, newY)) {
-        this.player.setX(newX);
-        this.player.setY(newY);
-    }
-
-    // Redessiner la scène
-    this.display.clear();
-    this.display.draw(this);
-}
-
-
-
-public isPositionValid(x:number,y:number):boolean{
-    if(x < 0 || y < 0 || x >= this.width  || y >= this.height ){
-        return false
-    }
-    for (let i = 0; i < this.rocks.length; i++) {
-        let rock = this.rocks[i];
-        if(rock.getX() === x && rock.getY() === y){
+    public isPositionValid(x: number, y: number): boolean {
+        if (x < 0 || y < 0 || x >= this.width || y >= this.height) {
             return false;
         }
-    }
 
-    return true
-    
-}
+        if (this.rocks.some(rock => rock.getPosition().x === x && rock.getPosition().y === y)) {
+            return false;
+        }
+
+        return true;
+    }
 
 }
