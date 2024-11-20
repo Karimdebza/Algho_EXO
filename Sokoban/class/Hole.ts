@@ -1,32 +1,32 @@
 import { Shape } from "../Enums/Shape.js";
 import { Point } from "./Point.js";
+import { Rock } from "./Rock.js";
 
-export class Hole extends Point{
+export class Hole extends Point {
     protected isFilled: boolean;
-    constructor(x:number,y:number){
-        super(x,y,Shape.SQUARE,'black');
+    constructor(x: number, y: number, color: string) {
+        super(x, y, Shape.SQUARE, color);
         this.isFilled = false;
 
     }
 
-    // public is_Filled(rock:Point):boolean{
-    //     if(this.touch(rock) ) return true;
-    //     return false;
-    // }
+    public setColor(color: string): string {
+        return this.color = color;
+    }
 
-    public is_empty(point:Point):boolean{
-         if(point.getX() && point.getY() === this.x && this.y ){
+    public is_empty(point: Point): boolean {
+        if (point.getX() && point.getY() === this.x && this.y) {
             return false;
-         }
-         return true;
+        }
+        return true;
     }
 
     getPosition() {
         return { x: this.x, y: this.y };
     }
- 
-   
- 
+
+
+
     setPosition(x: number, y: number) {
         this.x = x;
         this.y = y;
@@ -36,8 +36,15 @@ export class Hole extends Point{
         return this.isFilled;
     }
 
-    // Définit l'état du trou (rempli ou vide)
+    // public rock_filled(rock: Rock) {
+    //     if (rock.getPosition() !== this.getPosition()) {
+    //         return true;
+    //     }
+    // }
+
     public setIsFilled(isFilled: boolean): void {
         this.isFilled = isFilled;
     }
+
+
 }

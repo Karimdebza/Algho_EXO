@@ -1,5 +1,4 @@
 import { Direction } from "../Enums/Direction.js";
-import { Shape } from "../Enums/Shape.js";
 import { Display } from "./Display.js";
 import { Hole } from "./Hole.js";
 import { Player } from "./Player.js";
@@ -15,32 +14,14 @@ export class Game {
         this.level = 1;
         this.direction = [Direction.RIGHT];
         this.player = new Player(Math.floor(width / 2), Math.floor(height / 2));
-        this.holes = [new Hole(get_rand(height), get_rand(width))];
+        this.holes = [new Hole(get_rand(height), get_rand(width), 'black')];
         this.rocks = [new Rock(get_rand(height), get_rand(width))];
     }
     getLevel() {
         return this.level;
     }
-    getDir() {
-        return this.direction[0];
-    }
-    getLastDir() {
-        return this.direction[this.direction.length - 1];
-    }
-    display_point(point) {
-        switch (point.getShape()) {
-            case Shape.CIRCLE:
-                this.display.draw(this);
-        }
-    }
     play() {
         this.display.draw(this);
-    }
-    step() {
-        // this.player.mouv(this.getDir());
-        if (this.direction.length > 1) {
-            this.direction.shift();
-        }
     }
     getHole() {
         return this.holes;
@@ -77,27 +58,33 @@ export class Game {
                     return;
             }
             const rock = this.rocks.find(r => r.getPosition().x === newX && r.getPosition().y === newY);
-            // Gestion des rochers
+            const hole = this.holes.find(h => h.getPosition().x === newX && h.getPosition().y === newY);
             if (rock) {
                 const rockNewX = dir === Direction.LEFT ? newX - 1 : dir === Direction.RIGHT ? newX + 1 : newX;
                 const rockNewY = dir === Direction.UP ? newY - 1 : dir === Direction.DOWN ? newY + 1 : newY;
                 if (this.isPositionValid(rockNewX, rockNewY)) {
                     rock.setPosition(rockNewX, rockNewY);
+                    if (rock) {
+                        console.log("Rock new position:", rock.getPosition());
+                    }
                 }
                 else {
-                    console.log("Cannot move the rock.");
+                    console.log("ne peux pas sortir de la cage.");
                     return;
                 }
             }
-            // Gestion des trous
-            const hole = this.holes.find(h => h.getPosition().x === newX && h.getPosition().y === newY);
             if (hole && !hole.getIsFilled()) {
-                console.log("Cannot move onto an unfilled hole.");
+                console.log("ne peux pas le remplire.");
+                hole.setColor('gray');
+                hole.setIsFilled(true);
                 return;
             }
-            // Déplacement du joueur
+            if (rock && hole && !hole.getIsFilled()) {
+                hole.setColor('gray'); // Change la couleur du rocher
+                hole.setIsFilled(true); // Marque le trou comme rempli
+                console.log("Le rocher a changé de couleur et le trou est rempli.");
+            }
             this.player.setPosition(newX, newY);
-            // Mise à jour de l'affichage
             this.display.clear();
             this.display.draw(this);
         });
