@@ -12,7 +12,7 @@ export class Game {
         this.height = height;
         this.display = new Display(width, height, scale);
         this.level = 1;
-        this.direction = [Direction.RIGHT];
+        this.direction = Direction.RIGHT;
         this.player = new Player(Math.floor(width / 2), Math.floor(height / 2));
         this.holes = [new Hole(get_rand(height), get_rand(width), 'black')];
         this.rocks = [new Rock(get_rand(height), get_rand(width))];
@@ -22,6 +22,7 @@ export class Game {
     }
     play() {
         this.display.draw(this);
+        this.displacement();
     }
     getHole() {
         return this.holes;
@@ -58,31 +59,26 @@ export class Game {
                     return;
             }
             const rock = this.rocks.find(r => r.getPosition().x === newX && r.getPosition().y === newY);
-            const hole = this.holes.find(h => h.getPosition().x === newX && h.getPosition().y === newY);
             if (rock) {
                 const rockNewX = dir === Direction.LEFT ? newX - 1 : dir === Direction.RIGHT ? newX + 1 : newX;
                 const rockNewY = dir === Direction.UP ? newY - 1 : dir === Direction.DOWN ? newY + 1 : newY;
                 if (this.isPositionValid(rockNewX, rockNewY)) {
                     rock.setPosition(rockNewX, rockNewY);
-                    if (rock) {
-                        console.log("Rock new position:", rock.getPosition());
+                    const hole = this.holes.find(h => h.getPosition().x === rockNewX && h.getPosition().y === rockNewY);
+                    if (hole && !hole.getIsFilled()) {
+                        hole.setColor('gray');
+                        hole.setIsFilled(true);
                     }
                 }
                 else {
-                    console.log("ne peux pas sortir de la cage.");
                     return;
                 }
             }
-            if (hole && !hole.getIsFilled()) {
-                console.log("ne peux pas le remplire.");
-                hole.setColor('gray');
-                hole.setIsFilled(true);
-                return;
-            }
-            if (rock && hole && !hole.getIsFilled()) {
-                hole.setColor('gray'); // Change la couleur du rocher
-                hole.setIsFilled(true); // Marque le trou comme rempli
-                console.log("Le rocher a changé de couleur et le trou est rempli.");
+            else {
+                const hole = this.holes.find(h => h.getPosition().x === newX && h.getPosition().y === newY);
+                if (hole && !hole.getIsFilled()) {
+                    return;
+                }
             }
             this.player.setPosition(newX, newY);
             this.display.clear();
